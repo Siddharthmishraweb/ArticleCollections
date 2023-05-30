@@ -1,0 +1,112 @@
+const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
+
+module.exports.profile = async function(req, res) {
+   try {
+     const user = await User.findById(req.params.id).exec();
+     res.render('user_profile', {
+       title: 'Article |  Profile Page',
+       profile_user: user
+     });
+   } catch (err) {
+     // Handle the error
+     console.error(err);
+     // Render an error page or return an error response
+     res.status(500).send('Internal Server Error');
+   }
+ };
+ 
+ 
+ module.exports.update = async function(req, res) {
+   if (req.user.id == req.params.id) {
+      try {
+         // const user = await User.findByIdAndUpdate(req.params.id, req.body);
+         // return res.redirect('back');
+         let user = await User.findById(req.params.id);
+         User.uploadedAvatar(req, res, function(err){
+            if(err){ console.log('*MulterError*',err) }
+            // console.log(req.file);
+            user.name =  req.body.name;
+            user.email = req.body.email;
+            if(req.file){
+               if(user.avatar){
+                  // to delete the priviously existing file
+                  fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+               }
+               user.avatar = User.avatarPath + '/' + req.file.filename;
+            }
+            user.save();
+            return res.redirect('back');
+         })
+      } catch (err) {
+         // Handle any errors that occur during the update
+         console.error(err);
+         return res.status(500).send('Internal Server Error');
+      }
+   } else {
+      return res.status(401).send('Unauthorized');
+   }
+}
+
+
+module.exports.signUp = function(req, res){
+   if(req.isAuthenticated()){
+      return res.redirect('/users/profile');
+   }
+   return res.render('user_sign_up',{
+      title: 'Article | Sign Up'
+   });
+}
+module.exports.signIn = function(req, res){
+   if(req.isAuthenticated()){
+      return res.redirect('/users/profile');
+   }
+   return res.render('user_sign_in',{
+      title: 'Article | Sign In'
+   });
+}
+
+module.exports.create = function(req, res){
+   if(req.body.password != req.body.confirm_password){
+      return res.redirect('back');
+   }
+   User.findOne({email : req.body.email}).exec()
+      .then(user => {
+         if(!user){
+            User.create(req.body)
+               .then(user => {
+                  console.log('User created');
+                  return res.redirect('/users/signIn');
+               })
+               .catch(err => {
+                  console.log('Getting error while creating user in sign up', err);
+                  return res.redirect('back');
+               });
+         }else{
+            // if user Already Exist
+            return res.redirect('back');
+         }
+      })
+      .catch(err => {
+         console.log('Getting error while sign up', err);
+         return res.redirect('back');
+      });
+}
+
+
+// get the user detail on sign In
+module.exports.createSession = function(req, res){
+   req.flash('success', 'Logged in Successfully');
+   return res.redirect('/');
+}
+
+module.exports.destroySession = function(req, res){
+   req.logout(function(err){
+      if(err){
+         console.log("Error from users_controller ",err);
+      }
+      req.flash('success', 'Logged out Successfully');
+      return res.redirect('/');
+   });
+}

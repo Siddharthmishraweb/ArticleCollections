@@ -1,0 +1,64 @@
+
+<link rel="stylesheet" href="/css/user_profile.css">
+
+<div class="user-profile">
+    <% if (user.id === profile_user.id) { %>
+        <div class="profile-header">
+            <section class="main">
+                <div class="profile-card">
+                  <div class="image">
+                    <img
+                     src="<%= profile_user.avatar %>"
+                     alt=""
+                      class="profile-pic"
+                    />
+                  </div>
+                  <div class="data">
+                    <h2><%= profile_user.name %></h2>
+                    <span><%= profile_user.email %></span>
+                  </div>
+                  <div class="buttons">
+                    <a href="/" class="btn">Home</a>
+                    <a href="<%= profile_user.avatar %>" class="btn">Download</a>
+                  </div>
+                </div>
+              </section>
+        </div>
+        <!-- If the user matches, show the form -->
+        <form action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data" method="POST">
+            <input type="text" name="name" placeholder="Your Name" value="<%= profile_user.name %>" required>
+            <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>" required>
+            <input type="file" name="avatar" placeholder="Profile Picture">
+            <input type="submit" value="Update" style="background-color: #1B74E4; color: white;">
+        </form>
+    <% } else { %>
+        <section class="main">
+            <div class="profile-card">
+              <div class="image">
+                <img
+                 src="<%= profile_user.avatar %>"
+                 alt=""
+                  class="profile-pic"
+                />
+              </div>
+              <div class="data">
+                <h2><%= profile_user.name %></h2>
+                <span><%= profile_user.email %></span>
+              </div>
+              <div class="buttons">
+                <a href="/" class="btn">Home</a>
+                <a href="<%= profile_user.avatar %>" class="btn">Download</a>
+              </div>
+            </div>
+          </section>
+    <% } %>
+</div>
+
+
+
+
+
+
+
+
+

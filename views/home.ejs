@@ -1,0 +1,174 @@
+<!-- <link rel="stylesheet" href="/css/home.css">
+<style>
+    .user-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .user-avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .user-name {
+        width: 143px;
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #1B74E4;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-name:hover {
+        background-color: #1565c0;
+    }
+
+    #home-container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    #feed-posts {
+        margin-bottom: 20px;
+    }
+
+    #new-post-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    #new-post-form input[type="submit"] {
+        width: 100%;
+        display: block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #1B74E4;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #posts-list-container ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .post-item {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .post-item .post-content {
+        margin-bottom: 10px;
+    }
+
+    .post-item .post-author {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .post-item .post-timestamp {
+        font-size: 12px;
+        color: #888;
+    }
+</style>
+
+<div id="home-container">
+    <section id="feed-posts">
+        <h4 style="width:100%; font-weight: 800; color: #333;">Articles</h4>
+        <% if (locals.user) { %>
+        <form action="/posts/create" id="new-post-form" method="POST">
+            <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+            <input type="submit" value="Post">
+        </form>
+        <% } %>
+        <div id="posts-list-container">
+            <ul>
+                <% for(post of posts){ %>
+                <li class="post-item">
+                    <div class="post-content">
+                        <%- post.content %>
+                    </div>
+                    <div class="post-author">
+                        By: <%= post.author %>
+                    </div>
+                    <div class="post-timestamp">
+                        <%= post.timestamp %>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </section>
+</div>
+ -->
+
+
+ <link rel="stylesheet" href="/css/home.css">
+<style>
+    /* #posts-list-container > ul{
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+    } */
+    .user-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-left: 21px;
+    }
+
+    .user-avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .user-name {
+        width: 143px;
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #1B74E4;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-name:hover {
+        background-color: #1565c0;
+    }
+</style>
+
+<div id="home-container">
+    <section id="feed-posts">
+            <h4 style="width:100%; font-weight: 800; color: #333;">Articles</h4>
+            <% if (locals.user) { %>
+            <form action="/posts/create" id="new-post-form" method="POST" style="margin-bottom: 20px;">
+                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required style="width: 100%; padding: 10px;"></textarea>
+                <input type="submit" value="Post" style="width:100%; display: block; margin-top: 10px; padding: 10px 20px; background-color: #1B74E4; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            </form>
+            <% } %>       
+            <div id="posts-list-container">
+                <ul>
+                    <% for(post of posts){ %>
+                       <%- include('_post') -%>
+                    <%} %>
+                </ul>
+            </div>
+        </section>
+</div>
+
+

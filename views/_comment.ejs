@@ -1,0 +1,32 @@
+<!-- <li>
+   <p>
+      <% if(locals.user && (locals.user.id == comment.user.id)){%>
+         <small>
+                <a href="/comments/destroy/<%= comment.id%>">X</a>
+         </small>
+      <%}%>
+      <p><%= comment.content%></p>
+      <br>
+      <small>
+         Commented By:  <%= comment.user.name%>
+      </small>
+   </p>
+</li> -->
+
+
+
+<li id="comment-<%= comment._id %>" style="color:grey; margin-left:10px; margin-bottom: 10px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+   <p>
+       <% if (locals.user && locals.user.id == comment.user.id) { %>
+       <small>
+           <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>" style="color: red; text-decoration: none;">X</a>
+       </small>
+       <% } %>
+       <%= comment.content %>
+       <br>
+       <small>
+           <%= comment.user.name %>
+       </small>
+       <br>
+   </p>
+</li>
